@@ -7,8 +7,8 @@ ComThread::ComThread(QString n)
 
 void ComThread::setup()
 {
-    //LPCTSTR portName = name.toStdWString().c_str();
-    LPCTSTR portName = L"COM6";//= (LPCTSTR)name.toStdString().c_str();
+    LPCTSTR portName = (LPCTSTR)name.utf16();
+    //LPCTSTR portName = L"COM6";//= (LPCTSTR)name.toStdString().c_str();
     hSerial = ::CreateFile(portName, GENERIC_READ | GENERIC_WRITE, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
     if(hSerial == INVALID_HANDLE_VALUE)
     {
@@ -48,9 +48,9 @@ void ComThread::run()
           if (data.contains("C"))
           {
               emit sendData(name, data);
+              emit sendData(data);
 //              qDebug() << data.simplified();
               data.clear();
           }
     }
-
 }
